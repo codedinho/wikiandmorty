@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "@/app/globals.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -92,13 +92,22 @@ MobileListItem.displayName = "MobileListItem";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
   };
 
   return (
@@ -125,7 +134,7 @@ export default function Header() {
               className="object-contain w-14 h-14 hidden dark:block"
             />
           </Link>
-          <div className="hidden md:flex">
+          <div className="hidden md:flex items-center space-x-4">
             <NavigationMenu>
               <NavigationMenuList className="flex space-x-4">
                 <NavigationMenuItem>
@@ -174,9 +183,32 @@ export default function Header() {
               <NavigationMenuViewport />
               <NavigationMenuIndicator />
             </NavigationMenu>
+
+            {user ? (
+              <button onClick={handleLogout} className="px-4 py-2 bg-mainColor text-background rounded-xl">
+                Logout
+              </button>
+            ) : (
+              <Link href="/login">
+                <button className="px-4 py-2 bg-mainColor text-background rounded-xl">
+                  Login
+                </button>
+              </Link>
+            )}
           </div>
-          <div className="flex md:hidden">
-            <button onClick={toggleMobileMenu} className="p-2 rounded-md">
+          <div className="flex md:hidden items-center">
+            {user ? (
+              <button onClick={handleLogout} className="px-2 py-1 bg-blue-500 text-white rounded">
+                Logout
+              </button>
+            ) : (
+              <Link href="/login">
+                <button className="px-2 py-1 bg-blue-500 text-white rounded">
+                  Login
+                </button>
+              </Link>
+            )}
+            <button onClick={toggleMobileMenu} className="ml-2 p-2 rounded-md">
               <BarsIcon className="h-6 w-6" />
             </button>
           </div>
@@ -192,21 +224,21 @@ export default function Header() {
           <HeaderCharacters />
           <ul className="flex flex-col space-y-2 px-4 py-2">
             <MobileListItem
-              onClick={closeMobileMenu}
+              onClick={() => setMobileMenuOpen(false)}
               href="/characters/origin/earth"
               title="Earth"
             >
               Explore characters hailing from Earth, our home planet.
             </MobileListItem>
             <MobileListItem
-              onClick={closeMobileMenu}
+              onClick={() => setMobileMenuOpen(false)}
               href="/characters/origin/abadango"
               title="Abadango"
             >
               Discover the mysterious culture of Abadango.
             </MobileListItem>
             <MobileListItem
-              onClick={closeMobileMenu}
+              onClick={() => setMobileMenuOpen(false)}
               href="/characters/origin/citadel"
               title="Citadel of Ricks"
             >
@@ -214,7 +246,7 @@ export default function Header() {
             </MobileListItem>
             <li>
               <Link
-                onClick={closeMobileMenu}
+                onClick={() => setMobileMenuOpen(false)}
                 href="/episodes"
                 className={cn(navigationMenuTriggerStyle(), "font-bold", "block p-3")}
               >
