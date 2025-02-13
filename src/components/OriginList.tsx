@@ -17,7 +17,6 @@ export default function OriginList({ origins }: OriginListProps) {
 
   return (
     <div>
-      {/* Search Bar */}
       <div className="mb-4">
         <input
           type="text"
@@ -28,7 +27,6 @@ export default function OriginList({ origins }: OriginListProps) {
         />
       </div>
 
-      {/* Filtered Origins Grid */}
       {filteredOrigins.length === 0 ? (
         <p>No origins found matching "{searchQuery}".</p>
       ) : (

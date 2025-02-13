@@ -65,6 +65,25 @@ export const GET_EPISODES_WITH_INFO = `
   }
 `;
 
+export const GET_CHARACTERS_WITH_EPISODES = `
+  query GetCharactersWithEpisodes($page: Int) {
+    characters(page: $page) {
+      info {
+        pages
+      }
+      results {
+        id
+        name
+        image
+        species
+        episode {
+          id
+        }
+      }
+    }
+  }
+`;
+
 // New query that includes paging info so we can iterate through all pages.
 export const GET_CHARACTERS_WITH_INFO = `
   query GetCharacters($page: Int) {
@@ -77,6 +96,8 @@ export const GET_CHARACTERS_WITH_INFO = `
         name
         image
         species
+        gender
+        status
         origin {
           name
         }

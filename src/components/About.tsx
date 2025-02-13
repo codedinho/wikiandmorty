@@ -5,23 +5,26 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="container mx-auto my-8 p-6 bg-white dark:bg-neutral-800 rounded shadow flex flex-col md:flex-row items-center">
-      {/* Image Section */}
-      <div className="relative w-full md:w-1/3 h-48 md:h-auto">
+    <div className="max-w-7xl mt-14 mx-auto my-8 bg-white dark:bg-background rounded px-4 overflow-hidden grid grid-cols-1 md:grid-cols-2">
+      {/* Image Section: No padding/margin so it fills the container */}
+      <div className="relative h-64 md:h-auto rounded-lg overflow-hidden">
         <Image
-          src="/imgs/about-image.jpg" // update this path with your actual image
-          alt="About Rick and Morty Wiki"
-          fill
-          className="object-cover rounded"
-          quality={100}
+            src="/imgs/rick-and-morty-about.webp"
+            alt="About Rick and Morty Wiki"
+            fill
+            className="object-cover"
+            quality={100}
         />
-      </div>
+        </div>
 
-      {/* Text Section */}
-      <div className="mt-4 md:mt-0 md:pl-6 w-full md:w-2/3">
-        <h2 className="text-2xl font-bold mb-2">About</h2>
-        <p className="text-gray-700 dark:text-gray-300">
-          The Rick and Morty Wiki is an unofficial collaborative database for the hit{" "}
+      
+      {/* Text Section with padding */}
+      <div className="p-6 flex flex-col justify-center">
+          <h2 className="text-4xl font-bold font-header mb-1 text-left mb-4">
+            About Rick & Morty
+          </h2>          
+          <p className="text-gray-700 dark:text-gray-300">
+          Wiki and Morty is an unofficial collaborative database for the hit{" "}
           <a
             href="https://adultswim.com/"
             className="text-blue-500 hover:underline"
@@ -39,14 +42,10 @@ export default function About() {
           >
             adult swim
           </a>{" "}
-          block on December 2, 2013.
+          block on December 2nd, 2013.
         </p>
         <p className="text-gray-700 dark:text-gray-300 mt-4">
-          This wiki was founded on December 9, 2013 and currently has 2,772 articles! The wiki format
-          allows anyone to create or edit any article, and we welcome any contributors.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300 mt-4">
-          Further questions? Contact one of our administrators listed here.
+          This wiki was founded on February 13th, 2025!
         </p>
       </div>
     </div>

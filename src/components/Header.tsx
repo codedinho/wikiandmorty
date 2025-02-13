@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import DarkModeToggle from "./DarkModeToggle";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,7 +19,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import HeaderCharacters from "@/components/HeaderCharacters";
 
-// BarsIcon for the mobile burger menu.
 function BarsIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -35,10 +35,9 @@ function BarsIcon(props: React.SVGProps<SVGSVGElement>) {
 
 type ListItemProps = React.ComponentPropsWithoutRef<"a"> & {
   title: string;
-  href: string; // explicitly require href
+  href: string; 
 };
 
-// Desktop ListItem that uses NavigationMenuLink.
 const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   ({ className, title, children, ...props }, ref) => {
     return (
@@ -66,7 +65,6 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
 );
 ListItem.displayName = "ListItem";
 
-// Mobile ListItem that does NOT use NavigationMenuLink.
 const MobileListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   ({ className, title, children, ...props }, ref) => {
     return (
@@ -104,21 +102,29 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-neutral-800 shadow">
+    <header className="sticky top-0 z-50 bg-white dark:bg-background shadow text-mainColor">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        {/* Top Header Row */}
         <div className="flex items-center justify-between">
+          <DarkModeToggle />
+
           <Link href="/" className="flex items-center">
             <Image
-              src="/logos/rick-and-morty-6.avif"
+              src="/logos/RickMortyLogoBlack.png"
               alt="Rick and Morty Logo"
               width={360}
               height={360}
               quality={100}
-              className="object-contain w-14 h-14"
+              className="object-contain w-14 h-14 block dark:hidden"
+            />
+            <Image
+              src="/logos/RickMortyLogoWhite.png"
+              alt="Rick and Morty Logo"
+              width={360}
+              height={360}
+              quality={100}
+              className="object-contain w-14 h-14 hidden dark:block"
             />
           </Link>
-          {/* Desktop Navigation */}
           <div className="hidden md:flex">
             <NavigationMenu>
               <NavigationMenuList className="flex space-x-4">
@@ -169,7 +175,6 @@ export default function Header() {
               <NavigationMenuIndicator />
             </NavigationMenu>
           </div>
-          {/* Mobile Hamburger */}
           <div className="flex md:hidden">
             <button onClick={toggleMobileMenu} className="p-2 rounded-md">
               <BarsIcon className="h-6 w-6" />
@@ -178,10 +183,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* mobile navigation menu */}
       {mobileMenuOpen && (
         <nav className="md:hidden bg-white dark:bg-neutral-800 shadow">
-          {/* "Explore Characters" section at the top */}
           <div className="px-4 py-2 border-b border-gray-200 dark:border-neutral-600">
             <h2 className="text-lg font-bold">Explore Characters</h2>
           </div>

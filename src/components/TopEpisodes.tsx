@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 type Episode = {
   rank: number;
@@ -43,7 +44,7 @@ const topEpisodes: Episode[] = [
 export default function TopEpisodes() {
   return (
     <div className="max-w-7xl mx-auto px-4 mt-12">
-      <div className="bg-white dark:bg-neutral-700 p-4 rounded-lg">
+      <div className="bg-white dark:bg-background rounded-lg">
         <h2 className="text-4xl font-bold font-header mb-1 text-left">
           Top Rated Episodes
         </h2>
@@ -52,10 +53,7 @@ export default function TopEpisodes() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {topEpisodes.map((episode) => (
-            <div
-              key={episode.rank}
-              className="relative p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow cursor-pointer transition-transform transform hover:scale-105"
-            >
+            <Link href="/episodes" key={episode.rank} className="relative p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow cursor-pointer transition-transform transform hover:scale-105">
               <span className="absolute top-2 left-2 text-5xl text-mainColor font-bold">
                 #{episode.rank}
               </span>
@@ -63,11 +61,11 @@ export default function TopEpisodes() {
                 <h3 className="text-lg font-header font-bold text-left">
                   {episode.title} {episode.episodeInfo}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 text-left">
+                <p className="text-sm text-gray-400 dark:text-gray-300 mt-1 text-left">
                   {episode.excerpt}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

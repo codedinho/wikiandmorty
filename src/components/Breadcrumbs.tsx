@@ -20,6 +20,8 @@ function generateBreadcrumbs(pathname: string) {
   let accumulatedPath = "";
   segments.forEach((segment) => {
     accumulatedPath += `/${segment}`;
+    // Skip the origin segment in the breadcrumb display
+    if (segment.toLowerCase() === "origin") return;
     // Optionally format the segment for display (e.g., capitalize first letter)
     const formattedLabel = segment
       .replace(/-/g, " ")

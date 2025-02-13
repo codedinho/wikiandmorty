@@ -5,7 +5,6 @@ export default function DarkModeToggle() {
   const [isDark, setIsDark] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check if dark mode is already enabled (via localStorage or by the document class)
     const darkModeStored = localStorage.getItem("darkMode");
     const isDarkMode =
       darkModeStored === "true" || document.documentElement.classList.contains("dark");

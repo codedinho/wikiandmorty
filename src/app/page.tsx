@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Link from "next/link";
+import TopCharacters from "@/components/TopCharacters";
 import TopEpisodes from "@/components/TopEpisodes";
 import About from "@/components/About";
 
@@ -47,16 +48,13 @@ export default async function Home() {
 
         <div
           className="absolute top-0 left-0 w-full h-20 pointer-events-none z-10"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%)",
-          }}
         ></div>
       </div>
 
+      <TopCharacters />
+
       <TopEpisodes />
 
-      {/* About component under TopEpisodes */}
       <About />
     </>
   );

@@ -42,8 +42,9 @@ export default function Episodes() {
   const scrollToSeason = (season: number) => {
     const element = seasonRefs.current[season];
     if (element) {
-      const headerOffset = 0; // Adjust if you need an offset (for a fixed header, etc.)
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const headerOffset = 0; // Adjust this if you have a fixed header.
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - headerOffset;
       window.scrollTo({
         top: offsetPosition,
@@ -237,7 +238,7 @@ export default function Episodes() {
                 {episodes.map((episode: any) => (
                   <div
                     key={episode.id}
-                    className="flex flex-col md:flex-row items-start md:items-center bg-white dark:bg-neutral-800 p-6 rounded-lg shadow transition hover:shadow-lg"
+                    className="flex flex-col md:flex-row items-start md:items-center bg-white dark:bg-background p-6 rounded-lg shadow transition hover:shadow-lg"
                   >
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold mb-2">{episode.name}</h3>
