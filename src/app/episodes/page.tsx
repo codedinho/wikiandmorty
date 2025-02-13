@@ -12,7 +12,6 @@ import fetchGraphQL from "@/lib/graphql/client";
 import { GET_EPISODES_WITH_INFO } from "@/lib/graphql/queries";
 import { User } from "lucide-react";
 
-// Helper to extract the season number from an episode code (e.g. "S01E01")
 function getSeason(episodeCode: string): number {
   const match = episodeCode.match(/S(\d{2})E/);
   return match ? parseInt(match[1], 10) : 0;
@@ -21,28 +20,25 @@ function getSeason(episodeCode: string): number {
 export default function Episodes() {
   // Holds all deduplicated episodes fetched so far.
   const [episodes, setEpisodes] = useState<any[]>([]);
-  // API pagination state.
+  // API pagination
   const [page, setPage] = useState(1);
+  // total pages
   const [totalPages, setTotalPages] = useState<number | null>(null);
-  // Indicates if a fetch is in progress.
+  // fetch is in progress.
   const [loading, setLoading] = useState(false);
-  // Controls how many season groups are visible (when search is not active).
+  // controls how many season groups are visible (when search is not active).
   const [visibleSeasonCount, setVisibleSeasonCount] = useState(1);
   // Search term state.
   const [searchTerm, setSearchTerm] = useState("");
-  // Active season state (for UI highlight)
+  // active season state (for UI highlight)
   const [activeSeason, setActiveSeason] = useState<number | null>(null);
 
-  // Ref for season headers for scrolling.
-  // Using HTMLElement so we can attach refs to <h2> elements.
   const seasonRefs = useRef<{ [key: number]: HTMLElement | null }>({});
 
-  // Helper to scroll to a season header with proper offset.
-  // Adjust headerOffset if you have a fixed header.
   const scrollToSeason = (season: number) => {
     const element = seasonRefs.current[season];
     if (element) {
-      const headerOffset = 0; // Adjust this if you have a fixed header.
+      const headerOffset = 0; 
       const elementPosition =
         element.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - headerOffset;
@@ -124,17 +120,14 @@ export default function Episodes() {
       .filter((seasonGroup) => seasonGroup.episodes.length > 0);
   }, [sortedSeasons, searchTerm]);
 
-  // Determine which seasons to display based on whether a search term exists.
   const displayedSeasons = searchTerm.trim()
     ? filteredSeasons
     : sortedSeasons.slice(0, visibleSeasonCount);
 
-  // Season navigation list used for scrolling.
   const navSeasons = useMemo(() => {
     return searchTerm.trim() ? filteredSeasons : sortedSeasons;
   }, [sortedSeasons, filteredSeasons, searchTerm]);
 
-  // Handle season navigation click.
   const handleSeasonClick = (season: number) => {
     if (!searchTerm.trim()) {
       const index = sortedSeasons.findIndex((s) => s.season === season);
@@ -143,7 +136,7 @@ export default function Episodes() {
         // Allow time for the new season header to render before scrolling.
         setTimeout(() => {
           scrollToSeason(season);
-        }, 300);
+        }, 200);
       } else {
         scrollToSeason(season);
       }
@@ -153,7 +146,6 @@ export default function Episodes() {
     setActiveSeason(season);
   };
 
-  // Attach an IntersectionObserver to a sentinel div below the last visible season.
   const observer = useRef<IntersectionObserver | null>(null);
   const lastVisibleSeasonRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -162,11 +154,9 @@ export default function Episodes() {
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          // If there is another loaded season group that's not yet visible, reveal it.
           if (!searchTerm.trim() && visibleSeasonCount < sortedSeasons.length) {
             setVisibleSeasonCount((prev) => prev + 1);
           }
-          // Otherwise, if more pages are available, fetch the next page.
           else if (totalPages === null || page <= totalPages) {
             loadEpisodes();
           }
@@ -192,9 +182,7 @@ export default function Episodes() {
           <Breadcrumbs />
         </nav>
         <h1 className="text-4xl font-bold mb-6">Episodes</h1>
-        {/* Season Navigation and Search Bar */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
-          {/* Season Navigation */}
           <div className="flex space-x-2 overflow-x-auto mb-4 md:mb-0">
             {navSeasons.map(({ season }) => (
               <button
@@ -211,7 +199,7 @@ export default function Episodes() {
               </button>
             ))}
           </div>
-          {/* Search Bar */}
+          {/* searchbar */}
           <div className="w-full md:w-auto">
             <input
               type="text"
@@ -227,7 +215,6 @@ export default function Episodes() {
         {displayedSeasons.length > 0 ? (
           displayedSeasons.map(({ season, episodes }) => (
             <section key={`season-${season}`} className="mb-12">
-              {/* The ref callback now uses a block (without returning a value) */}
               <h2
                 ref={(el) => { seasonRefs.current[season] = el; }}
                 className="scroll-mt-0 text-3xl font-semibold mb-6"
@@ -305,7 +292,6 @@ export default function Episodes() {
         ) : (
           <p className="text-center text-gray-500">No episodes found.</p>
         )}
-        {/* Sentinel div: triggers showing the next season or loading more episodes */}
         <div ref={lastVisibleSeasonRef} className="h-10" />
         {loading && (
           <div className="flex justify-center my-6">

@@ -3,11 +3,7 @@ import { GET_CHARACTER_DETAIL } from "@/lib/graphql/queries";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { CheckCircle, XCircle, Mars, Venus, MapPin } from "lucide-react";
 
-export default async function CharacterDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function CharacterPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const data = await fetchGraphQL(GET_CHARACTER_DETAIL, { id });
   const character = data?.character;
